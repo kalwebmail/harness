@@ -1,0 +1,5 @@
+service:
+  name: SafeCracker
+  identifier: SafeCracker
+  orgIdentifier: default
+  projectIdentifier: GitHarnessExp
