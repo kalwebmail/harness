@@ -3,3 +3,22 @@ service:
   identifier: SafeCracker
   orgIdentifier: default
   projectIdentifier: GitHarnessExp
+  serviceDefinition:
+    spec:
+      manifests:
+        - manifest:
+            identifier: safecracker
+            type: K8sManifest
+            spec:
+              store:
+                type: Github
+                spec:
+                  connectorRef: account.githubkalwebmail
+                  gitFetchType: Branch
+                  paths:
+                    - orientation/safe-cracker/chart/templates/service.yaml
+                  branch: main
+              skipResourceVersioning: false
+              enableDeclarativeRollback: false
+              optionalValuesYaml: false
+    type: Kubernetes
