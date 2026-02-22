@@ -33,7 +33,7 @@ pipeline:
                   identifier: Install_Dependencies
                   spec:
                     connectorRef: account.ECS
-                    image: safecrackerimg1
+                    image: 440716895683.dkr.ecr.us-east-1.amazonaws.com/safeimg
                     shell: Bash
                     command: cd orientation/safe-cracker && npm install
               - step:
@@ -42,7 +42,7 @@ pipeline:
                   identifier: Build_App
                   spec:
                     connectorRef: account.ECS
-                    image: safecrackerimg1
+                    image: 440716895683.dkr.ecr.us-east-1.amazonaws.com/safeimg
                     shell: Bash
                     command: cd orientation/safe-cracker && npm run build
               - step:
@@ -53,7 +53,7 @@ pipeline:
                     connectorRef: account.ECS
                     region: us-east-1
                     account: "440716895683"
-                    imageName: safecrackerimg1
+                    imageName: 440716895683.dkr.ecr.us-east-1.amazonaws.com/safeimg
                     tags:
                       - 0.0.1
                     baseImageConnectorRefs:
