@@ -36,29 +36,6 @@ pipeline:
                     image: safecrackerimg1
                     shell: Bash
                     command: cd orientation/safe-cracker && npm install
-              - step:
-                  type: Run
-                  name: Build App
-                  identifier: Build_App
-                  spec:
-                    connectorRef: account.ECS
-                    image: safecrackerimg1
-                    shell: Bash
-                    command: cd orientation/safe-cracker && npm run build
-              - step:
-                  type: BuildAndPushECR
-                  name: BuildAndPushECR_1
-                  identifier: BuildAndPushECR_1
-                  spec:
-                    connectorRef: account.ECS
-                    region: us-east-1
-                    account: "440716895683"
-                    imageName: safecrackerimg1
-                    tags:
-                      - 0.0.1
-                    baseImageConnectorRefs:
-                      - account.harnessImage
-                    dockerfile: orientation/safe-cracker/Dockerfile
   properties:
     ci:
       codebase:
