@@ -4,15 +4,10 @@ pipeline:
   projectIdentifier: GitHarnessExp
   orgIdentifier: default
   tags: {}
-  properties:
-    ci:
-      codebase:
-        connectorRef: GitHubKal
-        build: <+input>
   stages:
     - stage:
-        name: build
-        identifier: build
+        name: Build
+        identifier: Build
         description: ""
         type: CI
         spec:
@@ -26,7 +21,7 @@ pipeline:
             type: KubernetesDirect
             spec:
               connectorRef: account.KalMiniKube
-              namespace: Default
+              namespace: safe-cracker-ns
               automountServiceAccountToken: true
               nodeSelector: {}
               os: Linux
@@ -34,10 +29,38 @@ pipeline:
             steps:
               - step:
                   type: Run
-                  name: Run_1
-                  identifier: Run_1
+                  name: Install Dependencies
+                  identifier: Install_Dependencies
                   spec:
                     connectorRef: account.ECS
-                    image: test
-                    shell: Sh
-                    command: npm install
+                    image: 440716895683.dkr.ecr.us-east-1.amazonaws.com/safeimg
+                    shell: Bash
+                    command: cd orientation/safe-cracker && npm install
+              - step:
+                  type: Run
+                  name: Build App
+                  identifier: Build_App
+                  spec:
+                    connectorRef: account.ECS
+                    image: 440716895683.dkr.ecr.us-east-1.amazonaws.com/safeimg
+                    shell: Bash
+                    command: cd orientation/safe-cracker && npm run build
+              - step:
+                  type: BuildAndPushECR
+                  name: BuildAndPushECR_1
+                  identifier: BuildAndPushECR_1
+                  spec:
+                    connectorRef: account.ECS
+                    region: us-east-1
+                    account: "440716895683"
+                    imageName: 440716895683.dkr.ecr.us-east-1.amazonaws.com/safeimg
+                    tags:
+                      - 0.0.1
+                    baseImageConnectorRefs:
+                      - account.harnessImage
+                    context: orientation/safe-cracker/Dockerfile
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.githubkalwebmail
+        build: <+input>
